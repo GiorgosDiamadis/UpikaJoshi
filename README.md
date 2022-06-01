@@ -1,5 +1,5 @@
 # Node.Js script for package update
-
+(node version v16.15.0)
 
 Given a list of Github repositories and the package you want to update,
 this scripts checks if the specified version is greater than or equal to the version on each repository.
