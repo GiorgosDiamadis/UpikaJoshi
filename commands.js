@@ -8,7 +8,7 @@ const {Octokit} = require("@octokit/core");
 const {createPullRequest} = require("octokit-plugin-create-pull-request");
 const MyOctokit = Octokit.plugin(createPullRequest);
 
-const TOKEN = "YOUR API TOKEN";
+const TOKEN = "YOUR TOKEN";
 const octokit = new MyOctokit({
     auth: TOKEN,
 });
@@ -25,10 +25,7 @@ program
     .option('-update', 'Create a pull request in order to update the package on the repos that it is needed.')
     .option('-i', 'Follow this with the name of the input file, must be csv and in the same directory.')
     .action(async (csvFile, pkg, options) => {
-        console.log(options)
-        if (!options.i){
 
-        }
         var data = fs.readFileSync(csvFile, "utf-8");
         data = data.split("\r\n")
 
@@ -37,9 +34,14 @@ program
             data[i].length = data[i].length + 2;
 
             const repoTmp = data[i][1].split("/");
-            const repo = repoTmp[repoTmp.length - 1]
-            const user = repoTmp[repoTmp.length - 2]
 
+            var repo = repoTmp[repoTmp.length - 1]
+
+            var user = repoTmp[repoTmp.length - 2]
+            if (repo === '') {
+                repo = repoTmp[repoTmp.length - 2]
+                user = repoTmp[repoTmp.length - 3]
+            }
             /**
              * Get package.json from the repository. The package should in the root directory of the repo.
              */
